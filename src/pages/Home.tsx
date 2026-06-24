@@ -17,9 +17,10 @@ export const Home = () => {
   const isAdmin = user?.role === 'ADMIN';
 
   const features: Feature[] = [
-    { icon: '🎨', title: 'Gestiona Obras', subtitle: 'Administra tu colección de arte', delay: 0 },
-    { icon: '📸', title: 'Galería Visual', subtitle: 'Organiza tus imágenes', delay: 0.2 },
-    // The users shortcut is admin-only.
+    // Placeholders for now — they don't navigate anywhere yet.
+    { icon: '🏠', title: 'Home', subtitle: 'Página principal del sitio', delay: 0 },
+    { icon: '🏆', title: 'Trayectoria', subtitle: 'Recorrido y logros', delay: 0.2 },
+    // The users shortcut is admin-only and already functional.
     ...(isAdmin
       ? [
           {
@@ -163,11 +164,13 @@ export const Home = () => {
 
         {/* Features Grid */}
         <motion.div className="features-grid" variants={containerVariants}>
-          {features.map((feature) => (
+          {features.map((feature) => {
+            const interactive = Boolean(feature.onClick);
+            return (
             <motion.div
               key={feature.title}
-              role="button"
-              tabIndex={0}
+              role={interactive ? 'button' : undefined}
+              tabIndex={interactive ? 0 : undefined}
               onClick={feature.onClick}
               onKeyDown={(e) => {
                 if (feature.onClick && (e.key === 'Enter' || e.key === ' ')) {
@@ -182,7 +185,7 @@ export const Home = () => {
                 borderRadius: '12px',
                 backdropFilter: 'blur(10px)',
                 textAlign: 'center',
-                cursor: 'pointer',
+                cursor: interactive ? 'pointer' : 'default',
                 outline: 'none',
               }}
               variants={itemVariants}
@@ -191,7 +194,7 @@ export const Home = () => {
                 background: 'rgba(255, 255, 255, 0.05)',
                 y: -4,
               }}
-              whileTap={{ scale: 0.97 }}
+              whileTap={interactive ? { scale: 0.97 } : undefined}
             >
               <motion.div
                 style={{ fontSize: '40px', marginBottom: '16px' }}
@@ -205,7 +208,8 @@ export const Home = () => {
               </h3>
               <p style={{ fontSize: '13px', color: '#999' }}>{feature.subtitle}</p>
             </motion.div>
-          ))}
+            );
+          })}
         </motion.div>
 
         {/* Admin Notice */}
