@@ -18,13 +18,18 @@ export const Home = () => {
   const features: Feature[] = [
     { icon: '🎨', title: 'Gestiona Obras', subtitle: 'Administra tu colección de arte', delay: 0 },
     { icon: '📸', title: 'Galería Visual', subtitle: 'Organiza tus imágenes', delay: 0.2 },
-    {
-      icon: '👥',
-      title: 'Usuarios',
-      subtitle: 'Administra accesos',
-      delay: 0.4,
-      onClick: isAdmin ? () => navigate('/users') : undefined,
-    },
+    // The users shortcut is admin-only.
+    ...(isAdmin
+      ? [
+          {
+            icon: '👥',
+            title: 'Usuarios',
+            subtitle: 'Administra accesos',
+            delay: 0.4,
+            onClick: () => navigate('/users'),
+          },
+        ]
+      : []),
   ];
 
   const containerVariants = {
