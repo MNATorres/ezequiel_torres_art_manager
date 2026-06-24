@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { AuthResponse, User } from '../types';
+import type { AuthResponse, User, CreateUserData, UpdateUserData } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
 
@@ -32,10 +32,9 @@ export const userService = {
 
   getUserById: (id: string) => api.get<User>(`/api/users/${id}`),
 
-  createUser: (name: string, email: string, password: string, role: 'ADMIN' | 'USER') =>
-    api.post<User>('/api/users', { name, email, password, role }),
+  createUser: (data: CreateUserData) => api.post<User>('/api/users', data),
 
-  updateUser: (id: string, data: Partial<User>) =>
+  updateUser: (id: string, data: UpdateUserData) =>
     api.put<User>(`/api/users/${id}`, data),
 
   deleteUser: (id: string) => api.delete(`/api/users/${id}`),

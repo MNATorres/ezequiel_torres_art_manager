@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { AdminRoute } from './components/AdminRoute';
 import { Login } from './pages/Login';
 import { Home } from './pages/Home';
 import { Users } from './pages/Users';
@@ -22,9 +23,9 @@ function App() {
           <Route
             path="/users"
             element={
-              <ProtectedRoute>
+              <AdminRoute>
                 <Users />
-              </ProtectedRoute>
+              </AdminRoute>
             }
           />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />

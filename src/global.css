@@ -18,6 +18,15 @@ body {
   line-height: 1.6;
 }
 
+/* Every button is clickable by default */
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
 /* Global Styles */
 .btn {
   padding: 12px 24px;
@@ -27,7 +36,6 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 14px;
-  active: scale(0.95);
 }
 
 .btn:active {
