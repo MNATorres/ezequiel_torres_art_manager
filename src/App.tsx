@@ -4,6 +4,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { AdminRoute } from './components/AdminRoute';
 import { Login } from './pages/Login';
 import { Home } from './pages/Home';
+import { Trayectoria } from './pages/Trayectoria';
 import { Users } from './pages/Users';
 
 function App() {
@@ -17,6 +18,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/trayectoria"
+            element={
+              <ProtectedRoute>
+                <Trayectoria />
               </ProtectedRoute>
             }
           />

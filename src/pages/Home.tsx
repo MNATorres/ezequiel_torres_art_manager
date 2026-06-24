@@ -17,9 +17,15 @@ export const Home = () => {
   const isAdmin = user?.role === 'ADMIN';
 
   const features: Feature[] = [
-    // Placeholders for now — they don't navigate anywhere yet.
+    // Home is still a placeholder; Trayectoria is now functional.
     { icon: '🏠', title: 'Home', subtitle: 'Página principal del sitio', delay: 0 },
-    { icon: '🏆', title: 'Trayectoria', subtitle: 'Recorrido y logros', delay: 0.2 },
+    {
+      icon: '🏆',
+      title: 'Trayectoria',
+      subtitle: 'Recorrido y logros',
+      delay: 0.2,
+      onClick: () => navigate('/trayectoria'),
+    },
     // The users shortcut is admin-only and already functional.
     ...(isAdmin
       ? [

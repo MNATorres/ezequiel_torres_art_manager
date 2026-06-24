@@ -191,6 +191,58 @@ button:disabled {
   }
 }
 
+/* ---- Experiences (Trayectoria) list ---- */
+.exp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.exp-card {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 14px;
+  flex-wrap: wrap;
+}
+
+.exp-thumb {
+  width: 110px;
+  height: 110px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.exp-thumb-placeholder {
+  width: 110px;
+  height: 110px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.exp-body {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+
+@media (max-width: 560px) {
+  .exp-thumb,
+  .exp-thumb-placeholder {
+    width: 100%;
+    height: 160px;
+  }
+}
+
 /* Dashboard feature widgets: 3 per row on desktop, 2 per row on mobile */
 .features-grid {
   display: grid;
