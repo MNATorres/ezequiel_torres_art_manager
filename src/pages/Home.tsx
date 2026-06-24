@@ -185,7 +185,7 @@ export const Home = () => {
                 borderRadius: '12px',
                 backdropFilter: 'blur(10px)',
                 textAlign: 'center',
-                cursor: interactive ? 'pointer' : 'default',
+                cursor: 'pointer',
                 outline: 'none',
               }}
               variants={itemVariants}
