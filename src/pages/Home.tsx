@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Navbar } from '../components/Navbar';
 
 interface Feature {
   icon: string;
@@ -58,11 +59,19 @@ export const Home = () => {
         minHeight: '100vh',
         background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '32px 24px',
+        flexDirection: 'column',
       }}
     >
+      <Navbar />
+      <div
+        style={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '32px 24px',
+        }}
+      >
       <motion.div
         style={{
           maxWidth: '800px',
@@ -225,6 +234,7 @@ export const Home = () => {
           </motion.div>
         )}
       </motion.div>
+      </div>
     </div>
   );
 };
