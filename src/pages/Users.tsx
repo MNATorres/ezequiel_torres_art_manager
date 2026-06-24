@@ -7,14 +7,6 @@ import type { User } from '../types';
 import { Navbar } from '../components/Navbar';
 import { UserFormModal } from '../components/UserFormModal';
 
-const thStyle: React.CSSProperties = {
-  padding: '16px',
-  textAlign: 'left',
-  fontWeight: 600,
-  fontSize: '14px',
-  color: '#ccc',
-};
-
 export const Users = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
@@ -189,139 +181,104 @@ export const Users = () => {
             />
           </motion.div>
         ) : (
-          <motion.div
-            style={{
-              overflowX: 'auto',
-              borderRadius: '12px',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              background: 'rgba(255, 255, 255, 0.02)',
-              backdropFilter: 'blur(10px)',
-            }}
-            variants={itemVariants}
-          >
-            <table style={{ width: '100%', borderCollapse: 'collapse', color: '#fff' }}>
-              <thead>
-                <tr
-                  style={{
-                    borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
-                    backgroundColor: 'rgba(255, 255, 255, 0.02)',
+          <motion.div className="users-list" variants={containerVariants}>
+            <AnimatePresence mode="popLayout">
+              {users.map((u) => (
+                <motion.div
+                  key={u._id}
+                  className="user-row"
+                  variants={itemVariants}
+                  exit="exit"
+                  layout
+                  whileHover={{
+                    borderColor: 'rgba(255, 255, 255, 0.18)',
+                    background: 'rgba(255, 255, 255, 0.05)',
                   }}
                 >
-                  <th style={thStyle}>Usuario</th>
-                  <th style={thStyle}>Email</th>
-                  <th style={thStyle}>Rol</th>
-                  <th style={thStyle}>Registrado</th>
-                  <th style={{ ...thStyle, textAlign: 'center' }}>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                <AnimatePresence mode="popLayout">
-                  {users.map((u) => (
-                    <motion.tr
-                      key={u._id}
-                      variants={itemVariants}
-                      exit="exit"
-                      layout
-                      style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}
-                      onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLElement).style.background = 'rgba(255, 255, 255, 0.05)';
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLElement).style.background = 'transparent';
+                  {/* Identity: avatar + name + email */}
+                  <div className="user-identity">
+                    <div className="user-avatar">
+                      <FiUser size={20} />
+                    </div>
+                    <div style={{ minWidth: 0 }}>
+                      <div className="truncate" style={{ fontWeight: 600, color: '#fff' }}>
+                        {u.name}
+                      </div>
+                      <div className="truncate" style={{ fontSize: '13px', color: '#999' }}>
+                        {u.email}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Meta: role + date + actions */}
+                  <div className="user-meta">
+                    <span
+                      className="role-badge"
+                      style={{
+                        background: u.role === 'ADMIN' ? '#fff' : 'rgba(255,255,255,0.06)',
+                        color: u.role === 'ADMIN' ? '#000' : '#bbb',
                       }}
                     >
-                      <td style={{ padding: '16px' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                          <div
-                            style={{
-                              width: '40px',
-                              height: '40px',
-                              background: 'linear-gradient(135deg, #333, #555)',
-                              borderRadius: '8px',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              color: '#fff',
-                            }}
-                          >
-                            <FiUser size={20} />
-                          </div>
-                          <span style={{ fontWeight: 500 }}>{u.name}</span>
-                        </div>
-                      </td>
-                      <td style={{ padding: '16px', color: '#ccc', fontSize: '14px' }}>{u.email}</td>
-                      <td style={{ padding: '16px' }}>
-                        <span
-                          style={{
-                            padding: '6px 12px',
-                            background: u.role === 'ADMIN' ? '#333' : '#1a1a1a',
-                            color: u.role === 'ADMIN' ? '#fff' : '#999',
-                            borderRadius: '6px',
-                            fontSize: '12px',
-                            fontWeight: 600,
-                            border: '1px solid rgba(255, 255, 255, 0.1)',
-                          }}
-                        >
-                          {u.role}
-                        </span>
-                      </td>
-                      <td style={{ padding: '16px', color: '#999', fontSize: '14px' }}>
-                        {new Date(u.createdAt).toLocaleDateString()}
-                      </td>
-                      <td style={{ padding: '16px', textAlign: 'center' }}>
-                        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-                          <motion.button
-                            onClick={() => openEdit(u)}
-                            style={{
-                              padding: '8px 12px',
-                              background: 'rgba(59, 130, 246, 0.1)',
-                              color: '#60a5fa',
-                              border: '1px solid rgba(59, 130, 246, 0.3)',
-                              borderRadius: '6px',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '4px',
-                              fontSize: '12px',
-                            }}
-                            whileHover={{ background: 'rgba(59, 130, 246, 0.2)', borderColor: 'rgba(59, 130, 246, 0.5)' }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <FiEdit2 size={14} />
-                            Editar
-                          </motion.button>
+                      {u.role}
+                    </span>
 
-                          <motion.button
-                            onClick={() => handleDelete(u._id)}
-                            disabled={deletingId === u._id}
-                            style={{
-                              padding: '8px 12px',
-                              background: 'rgba(239, 68, 68, 0.1)',
-                              color: '#f87171',
-                              border: '1px solid rgba(239, 68, 68, 0.3)',
-                              borderRadius: '6px',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '4px',
-                              fontSize: '12px',
-                              opacity: deletingId === u._id ? 0.5 : 1,
-                            }}
-                            whileHover={{ background: 'rgba(239, 68, 68, 0.2)', borderColor: 'rgba(239, 68, 68, 0.5)' }}
-                            whileTap={{ scale: 0.95 }}
-                          >
-                            <FiTrash2 size={14} />
-                            {deletingId === u._id ? 'Eliminando...' : 'Eliminar'}
-                          </motion.button>
-                        </div>
-                      </td>
-                    </motion.tr>
-                  ))}
-                </AnimatePresence>
-              </tbody>
-            </table>
+                    <span className="user-date">
+                      {new Date(u.createdAt).toLocaleDateString()}
+                    </span>
 
-            {/* Empty state inside the table container */}
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <motion.button
+                        onClick={() => openEdit(u)}
+                        className="icon-btn"
+                        style={{
+                          background: 'rgba(59, 130, 246, 0.12)',
+                          color: '#60a5fa',
+                          borderColor: 'rgba(59, 130, 246, 0.3)',
+                        }}
+                        whileHover={{ background: 'rgba(59, 130, 246, 0.22)' }}
+                        whileTap={{ scale: 0.92 }}
+                        title="Editar usuario"
+                        aria-label="Editar usuario"
+                      >
+                        <FiEdit2 size={16} />
+                      </motion.button>
+
+                      <motion.button
+                        onClick={() => handleDelete(u._id)}
+                        disabled={deletingId === u._id}
+                        className="icon-btn"
+                        style={{
+                          background: 'rgba(239, 68, 68, 0.12)',
+                          color: '#f87171',
+                          borderColor: 'rgba(239, 68, 68, 0.3)',
+                          opacity: deletingId === u._id ? 0.5 : 1,
+                        }}
+                        whileHover={{ background: 'rgba(239, 68, 68, 0.22)' }}
+                        whileTap={{ scale: 0.92 }}
+                        title="Eliminar usuario"
+                        aria-label="Eliminar usuario"
+                      >
+                        <FiTrash2 size={16} />
+                      </motion.button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+
+            {/* Empty state */}
             {users.length === 0 && (
-              <div style={{ textAlign: 'center', padding: '48px', color: '#999', fontSize: '15px' }}>
+              <div
+                style={{
+                  textAlign: 'center',
+                  padding: '48px',
+                  color: '#999',
+                  fontSize: '15px',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  borderRadius: '14px',
+                  background: 'rgba(255, 255, 255, 0.02)',
+                }}
+              >
                 No hay usuarios registrados
               </div>
             )}
