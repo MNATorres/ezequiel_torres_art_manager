@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AdminRoute } from './components/AdminRoute';
+import { OfflineBanner } from './components/OfflineBanner';
 import { Login } from './pages/Login';
 import { Home } from './pages/Home';
 import { Trayectoria } from './pages/Trayectoria';
@@ -11,6 +12,7 @@ function App() {
   return (
     <Router>
       <AuthProvider>
+        <OfflineBanner />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route
