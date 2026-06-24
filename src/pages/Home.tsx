@@ -1,8 +1,31 @@
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+
+interface Feature {
+  icon: string;
+  title: string;
+  subtitle: string;
+  delay: number;
+  onClick?: () => void;
+}
 
 export const Home = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const isAdmin = user?.role === 'ADMIN';
+
+  const features: Feature[] = [
+    { icon: '🎨', title: 'Gestiona Obras', subtitle: 'Administra tu colección de arte', delay: 0 },
+    { icon: '📸', title: 'Galería Visual', subtitle: 'Organiza tus imágenes', delay: 0.2 },
+    {
+      icon: '👥',
+      title: 'Usuarios',
+      subtitle: 'Administra accesos',
+      delay: 0.4,
+      onClick: isAdmin ? () => navigate('/users') : undefined,
+    },
+  ];
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -125,152 +148,50 @@ export const Home = () => {
         </motion.div>
 
         {/* Features Grid */}
-        <motion.div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-            gap: '24px',
-            marginBottom: '48px',
-          }}
-          variants={containerVariants}
-        >
-          {/* Feature 1 */}
-          <motion.div
-            style={{
-              padding: '32px 24px',
-              background: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '12px',
-              backdropFilter: 'blur(10px)',
-              textAlign: 'center',
-            }}
-            variants={itemVariants}
-            whileHover={{
-              borderColor: 'rgba(255, 255, 255, 0.2)',
-              background: 'rgba(255, 255, 255, 0.05)',
-            }}
-          >
+        <motion.div className="features-grid" variants={containerVariants}>
+          {features.map((feature) => (
             <motion.div
-              style={{
-                fontSize: '40px',
-                marginBottom: '16px',
+              key={feature.title}
+              role="button"
+              tabIndex={0}
+              onClick={feature.onClick}
+              onKeyDown={(e) => {
+                if (feature.onClick && (e.key === 'Enter' || e.key === ' ')) {
+                  e.preventDefault();
+                  feature.onClick();
+                }
               }}
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
+              style={{
+                padding: '32px 24px',
+                background: 'rgba(255, 255, 255, 0.03)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '12px',
+                backdropFilter: 'blur(10px)',
+                textAlign: 'center',
+                cursor: 'pointer',
+                outline: 'none',
+              }}
+              variants={itemVariants}
+              whileHover={{
+                borderColor: 'rgba(255, 255, 255, 0.2)',
+                background: 'rgba(255, 255, 255, 0.05)',
+                y: -4,
+              }}
+              whileTap={{ scale: 0.97 }}
             >
-              🎨
+              <motion.div
+                style={{ fontSize: '40px', marginBottom: '16px' }}
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 2, repeat: Infinity, delay: feature.delay }}
+              >
+                {feature.icon}
+              </motion.div>
+              <h3 style={{ fontSize: '16px', fontWeight: 600, color: '#fff', marginBottom: '8px' }}>
+                {feature.title}
+              </h3>
+              <p style={{ fontSize: '13px', color: '#999' }}>{feature.subtitle}</p>
             </motion.div>
-            <h3
-              style={{
-                fontSize: '16px',
-                fontWeight: 600,
-                color: '#fff',
-                marginBottom: '8px',
-              }}
-            >
-              Gestiona Obras
-            </h3>
-            <p
-              style={{
-                fontSize: '13px',
-                color: '#999',
-              }}
-            >
-              Administra tu colección de arte
-            </p>
-          </motion.div>
-
-          {/* Feature 2 */}
-          <motion.div
-            style={{
-              padding: '32px 24px',
-              background: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '12px',
-              backdropFilter: 'blur(10px)',
-              textAlign: 'center',
-            }}
-            variants={itemVariants}
-            whileHover={{
-              borderColor: 'rgba(255, 255, 255, 0.2)',
-              background: 'rgba(255, 255, 255, 0.05)',
-            }}
-          >
-            <motion.div
-              style={{
-                fontSize: '40px',
-                marginBottom: '16px',
-              }}
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 2, repeat: Infinity, delay: 0.2 }}
-            >
-              📸
-            </motion.div>
-            <h3
-              style={{
-                fontSize: '16px',
-                fontWeight: 600,
-                color: '#fff',
-                marginBottom: '8px',
-              }}
-            >
-              Galería Visual
-            </h3>
-            <p
-              style={{
-                fontSize: '13px',
-                color: '#999',
-              }}
-            >
-              Organiza tus imágenes
-            </p>
-          </motion.div>
-
-          {/* Feature 3 */}
-          <motion.div
-            style={{
-              padding: '32px 24px',
-              background: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              borderRadius: '12px',
-              backdropFilter: 'blur(10px)',
-              textAlign: 'center',
-            }}
-            variants={itemVariants}
-            whileHover={{
-              borderColor: 'rgba(255, 255, 255, 0.2)',
-              background: 'rgba(255, 255, 255, 0.05)',
-            }}
-          >
-            <motion.div
-              style={{
-                fontSize: '40px',
-                marginBottom: '16px',
-              }}
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 2, repeat: Infinity, delay: 0.4 }}
-            >
-              👥
-            </motion.div>
-            <h3
-              style={{
-                fontSize: '16px',
-                fontWeight: 600,
-                color: '#fff',
-                marginBottom: '8px',
-              }}
-            >
-              Usuarios
-            </h3>
-            <p
-              style={{
-                fontSize: '13px',
-                color: '#999',
-              }}
-            >
-              Administra accesos
-            </p>
-          </motion.div>
+          ))}
         </motion.div>
 
         {/* Admin Notice */}
