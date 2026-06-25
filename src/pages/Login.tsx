@@ -141,7 +141,7 @@ export const Login = () => {
                 disabled={loading}
                 required
                 className="input"
-                placeholder="admin@example.com"
+                placeholder="tu@email.com"
                 style={{
                   background: 'rgba(255, 255, 255, 0.05)',
                   borderColor: 'rgba(255, 255, 255, 0.1)',
@@ -207,14 +207,6 @@ export const Login = () => {
               </motion.span>
             </motion.button>
           </form>
-        </motion.div>
-
-        {/* Demo Info */}
-        <motion.div style={{ textAlign: 'center', marginTop: '24px', fontSize: '12px', color: '#666' }} variants={itemVariants}>
-          <p>Demo credentials:</p>
-          <p style={{ color: '#999', fontFamily: 'monospace', marginTop: '8px' }}>
-            admin@example.com / admin123
-          </p>
         </motion.div>
       </motion.div>
     </div>
