@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AdminRoute } from './components/AdminRoute';
 import { OfflineBanner } from './components/OfflineBanner';
+import { InstallPrompt } from './components/InstallPrompt';
 import { Login } from './pages/Login';
 import { Home } from './pages/Home';
 import { Trayectoria } from './pages/Trayectoria';
@@ -13,6 +14,7 @@ function App() {
     <Router>
       <AuthProvider>
         <OfflineBanner />
+        <InstallPrompt />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route
