@@ -1,7 +1,9 @@
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { FiEye } from 'react-icons/fi';
 import { useAuth } from '../context/AuthContext';
 import { Navbar } from '../components/Navbar';
+import { PUBLIC_SITE_URL } from '../config';
 
 interface Feature {
   icon: string;
@@ -166,6 +168,31 @@ export const Home = () => {
             Desde aquí podrás administrar toda la información que se visualiza en la página
             principal, incluyendo obras, galerías, y más.
           </p>
+
+          <motion.a
+            href={PUBLIC_SITE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              marginTop: '24px',
+              padding: '10px 20px',
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.15)',
+              borderRadius: '999px',
+              color: '#fff',
+              fontSize: '14px',
+              fontWeight: 600,
+              textDecoration: 'none',
+            }}
+            whileHover={{ scale: 1.04, background: 'rgba(255, 255, 255, 0.1)' }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <FiEye size={18} />
+            Ver el sitio
+          </motion.a>
         </motion.div>
 
         {/* Features Grid */}

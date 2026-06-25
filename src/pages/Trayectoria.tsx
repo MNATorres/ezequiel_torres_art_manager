@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiPlus, FiEdit2, FiTrash2, FiImage, FiRefreshCw } from 'react-icons/fi';
+import { FiPlus, FiEdit2, FiTrash2, FiImage, FiRefreshCw, FiEye } from 'react-icons/fi';
 import { experienceService } from '../services/api';
 import { getErrorMessage } from '../services/errors';
 import type { Experience } from '../types';
 import { Navbar } from '../components/Navbar';
 import { ExperienceFormModal } from '../components/ExperienceFormModal';
+import { PUBLIC_SITE_URL } from '../config';
 
 export const Trayectoria = () => {
   const [experiences, setExperiences] = useState<Experience[]>([]);
@@ -98,6 +99,31 @@ export const Trayectoria = () => {
           </div>
 
           <div style={{ display: 'flex', gap: '12px' }}>
+            <motion.a
+              href={`${PUBLIC_SITE_URL}/trayectoria`}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Ver en el sitio"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '12px 16px',
+                background: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '8px',
+                color: '#ccc',
+                fontWeight: 600,
+                fontSize: '14px',
+                textDecoration: 'none',
+              }}
+              whileHover={{ background: 'rgba(255, 255, 255, 0.1)', color: '#fff' }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <FiEye size={16} />
+              Ver en el sitio
+            </motion.a>
+
             <motion.button
               onClick={load}
               disabled={loading}
