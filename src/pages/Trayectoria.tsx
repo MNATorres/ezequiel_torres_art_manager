@@ -231,7 +231,14 @@ export const Trayectoria = () => {
                       }}
                     >
                       <div style={{ minWidth: 0 }}>
-                        <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#fff' }}>
+                        <h3
+                          style={{
+                            fontSize: '18px',
+                            fontWeight: 700,
+                            color: '#fff',
+                            overflowWrap: 'break-word',
+                          }}
+                        >
                           {exp.title}
                         </h3>
                         <p style={{ fontSize: '13px', color: '#888', marginTop: '2px' }}>
@@ -287,6 +294,7 @@ export const Trayectoria = () => {
                         color: '#bbb',
                         lineHeight: 1.6,
                         marginTop: '10px',
+                        overflowWrap: 'break-word',
                       }}
                     >
                       {exp.description}
