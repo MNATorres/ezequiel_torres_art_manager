@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'apple-touch-icon-180x180.png'],
+      includeAssets: ['favicon.ico', 'favicon-32x32.png', 'apple-touch-icon-180x180.png'],
       manifest: {
         name: 'Ezequiel Torres Art — Manager',
         short_name: 'ET Manager',
