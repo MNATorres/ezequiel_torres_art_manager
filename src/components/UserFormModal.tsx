@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FiX } from 'react-icons/fi';
+import { FiX, FiEye, FiEyeOff } from 'react-icons/fi';
 import { userService } from '../services/api';
 import { getErrorMessage } from '../services/errors';
 import type { Role, User } from '../types';
@@ -33,6 +33,9 @@ export const UserFormModal = ({ isOpen, onClose, onSuccess, user }: UserFormModa
   const [name, setName] = useState(user?.name ?? '');
   const [email, setEmail] = useState(user?.email ?? '');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [confirmError, setConfirmError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState<Role>(user?.role ?? 'USER');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -43,14 +46,33 @@ export const UserFormModal = ({ isOpen, onClose, onSuccess, user }: UserFormModa
       setName(user?.name ?? '');
       setEmail(user?.email ?? '');
       setPassword('');
+      setConfirmPassword('');
+      setConfirmError('');
+      setShowPassword(false);
       setRole(user?.role ?? 'USER');
       setError('');
     }
   }, [isOpen, user]);
 
+  // Validate that both passwords match when the user leaves the field.
+  const validateConfirm = () => {
+    if (confirmPassword && password !== confirmPassword) {
+      setConfirmError('Las contraseñas no coinciden.');
+    } else {
+      setConfirmError('');
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    // Validate the password confirmation whenever a password was typed.
+    if (password && password !== confirmPassword) {
+      setError('Las contraseñas no coinciden.');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -194,17 +216,64 @@ export const UserFormModal = ({ isOpen, onClose, onSuccess, user }: UserFormModa
                     <span style={{ color: '#666', fontWeight: 400 }}> (dejar vacío para no cambiar)</span>
                   )}
                 </label>
+                <div style={{ position: 'relative' }}>
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    onBlur={validateConfirm}
+                    disabled={loading}
+                    required={!isEditMode}
+                    minLength={6}
+                    className="input"
+                    style={{ ...darkInputStyle, paddingRight: '44px' }}
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    tabIndex={-1}
+                    aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      height: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '0 14px',
+                      background: 'none',
+                      border: 'none',
+                      color: '#999',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Confirm password — always visible; shares the show/hide toggle above. */}
+              <div>
+                <label style={labelStyle}>Confirmar password</label>
                 <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  type={showPassword ? 'text' : 'password'}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onBlur={validateConfirm}
                   disabled={loading}
-                  required={!isEditMode}
+                  required={!isEditMode || Boolean(password)}
                   minLength={6}
                   className="input"
-                  style={darkInputStyle}
+                  style={{
+                    ...darkInputStyle,
+                    borderColor: confirmError ? 'rgba(239, 68, 68, 0.6)' : darkInputStyle.borderColor,
+                  }}
                   placeholder="••••••••"
                 />
+                {confirmError && (
+                  <p style={{ marginTop: '6px', color: '#fca5a5', fontSize: '12px' }}>{confirmError}</p>
+                )}
               </div>
 
               <div>
