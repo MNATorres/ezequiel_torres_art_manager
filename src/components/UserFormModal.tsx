@@ -253,24 +253,48 @@ export const UserFormModal = ({ isOpen, onClose, onSuccess, user }: UserFormModa
                 </div>
               </div>
 
-              {/* Confirm password — always visible; shares the show/hide toggle above. */}
+              {/* Confirm password — always visible; shares the show/hide toggle. */}
               <div>
                 <label style={labelStyle}>Confirmar password</label>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  onBlur={validateConfirm}
-                  disabled={loading}
-                  required={!isEditMode || Boolean(password)}
-                  minLength={6}
-                  className="input"
-                  style={{
-                    ...darkInputStyle,
-                    borderColor: confirmError ? 'rgba(239, 68, 68, 0.6)' : darkInputStyle.borderColor,
-                  }}
-                  placeholder="••••••••"
-                />
+                <div style={{ position: 'relative' }}>
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    onBlur={validateConfirm}
+                    disabled={loading}
+                    required={!isEditMode || Boolean(password)}
+                    minLength={6}
+                    className="input"
+                    style={{
+                      ...darkInputStyle,
+                      paddingRight: '44px',
+                      borderColor: confirmError ? 'rgba(239, 68, 68, 0.6)' : darkInputStyle.borderColor,
+                    }}
+                    placeholder="••••••••"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((v) => !v)}
+                    tabIndex={-1}
+                    aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      right: 0,
+                      height: '100%',
+                      display: 'flex',
+                      alignItems: 'center',
+                      padding: '0 14px',
+                      background: 'none',
+                      border: 'none',
+                      color: '#999',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+                  </button>
+                </div>
                 {confirmError && (
                   <p style={{ marginTop: '6px', color: '#fca5a5', fontSize: '12px' }}>{confirmError}</p>
                 )}

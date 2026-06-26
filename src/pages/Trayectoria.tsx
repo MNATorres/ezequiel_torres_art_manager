@@ -98,7 +98,7 @@ export const Trayectoria = () => {
             </p>
           </div>
 
-          <div style={{ display: 'flex', gap: '12px' }}>
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
             <motion.a
               href={`${PUBLIC_SITE_URL}/trayectoria`}
               target="_blank"
