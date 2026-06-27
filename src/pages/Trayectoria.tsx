@@ -15,6 +15,8 @@ export const Trayectoria = () => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<Experience | null>(null);
+  // Ids whose image failed to load — fall back to the monogram placeholder.
+  const [brokenImages, setBrokenImages] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     load();
@@ -237,12 +239,24 @@ export const Trayectoria = () => {
                   layout
                   whileHover={{ borderColor: 'rgba(255,255,255,0.18)' }}
                 >
-                  {/* Thumbnail */}
-                  {exp.imageUrl ? (
-                    <img src={exp.imageUrl} alt={exp.title} className="exp-thumb" />
+                  {/* Thumbnail — falls back to a monogram when there is no image
+                      (or the saved image fails to load) */}
+                  {exp.imageUrl && !brokenImages.has(exp._id) ? (
+                    <img
+                      src={exp.imageUrl}
+                      alt={exp.title}
+                      className="exp-thumb"
+                      onError={() =>
+                        setBrokenImages((prev) => new Set(prev).add(exp._id))
+                      }
+                    />
                   ) : (
-                    <div className="exp-thumb-placeholder">
-                      <FiImage size={28} />
+                    <div className="exp-thumb-placeholder" aria-hidden="true">
+                      {exp.title.trim() ? (
+                        exp.title.trim().charAt(0).toUpperCase()
+                      ) : (
+                        <FiImage size={28} />
+                      )}
                     </div>
                   )}
 
