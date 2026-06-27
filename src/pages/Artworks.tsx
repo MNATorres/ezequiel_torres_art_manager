@@ -237,12 +237,16 @@ export const Artworks = () => {
                   layout
                   whileHover={{ borderColor: 'rgba(255,255,255,0.18)' }}
                 >
-                  {/* Thumbnail */}
+                  {/* Thumbnail — falls back to a monogram when there is no image */}
                   {art.imageUrl ? (
                     <img src={art.imageUrl} alt={art.title} className="exp-thumb" />
                   ) : (
-                    <div className="exp-thumb-placeholder">
-                      <FiImage size={28} />
+                    <div className="exp-thumb-placeholder" aria-hidden="true">
+                      {art.title.trim() ? (
+                        art.title.trim().charAt(0).toUpperCase()
+                      ) : (
+                        <FiImage size={28} />
+                      )}
                     </div>
                   )}
 
