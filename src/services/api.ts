@@ -6,6 +6,8 @@ import type {
   UpdateUserData,
   Experience,
   ExperienceData,
+  Artwork,
+  ArtworkData,
 } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000';
@@ -60,6 +62,17 @@ export const experienceService = {
     api.put<Experience>(`/api/experiences/${id}`, data),
 
   remove: (id: string) => api.delete(`/api/experiences/${id}`),
+};
+
+export const artworkService = {
+  getAll: () => api.get<Artwork[]>('/api/artworks'),
+
+  create: (data: ArtworkData) => api.post<Artwork>('/api/artworks', data),
+
+  update: (id: string, data: ArtworkData) =>
+    api.put<Artwork>(`/api/artworks/${id}`, data),
+
+  remove: (id: string) => api.delete(`/api/artworks/${id}`),
 };
 
 export const uploadService = {

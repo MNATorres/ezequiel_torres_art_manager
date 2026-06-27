@@ -40,6 +40,23 @@ export interface ExperienceData {
   imageUrl?: string;
 }
 
+export interface Artwork {
+  _id: string;
+  title: string;
+  description: string;
+  imageUrl?: string;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ArtworkData {
+  title: string;
+  description: string;
+  imageUrl?: string;
+  order: number;
+}
+
 export interface AuthResponse {
   token: string;
   user: User;

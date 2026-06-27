@@ -7,6 +7,7 @@ import { InstallPrompt } from './components/InstallPrompt';
 import { Login } from './pages/Login';
 import { Home } from './pages/Home';
 import { Trayectoria } from './pages/Trayectoria';
+import { Artworks } from './pages/Artworks';
 import { Users } from './pages/Users';
 
 function App() {
@@ -30,6 +31,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Trayectoria />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/artworks"
+            element={
+              <ProtectedRoute>
+                <Artworks />
               </ProtectedRoute>
             }
           />

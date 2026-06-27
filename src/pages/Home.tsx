@@ -19,8 +19,13 @@ export const Home = () => {
   const isAdmin = user?.role === 'ADMIN';
 
   const features: Feature[] = [
-    // Home is still a placeholder; Trayectoria is now functional.
-    { icon: '🏠', title: 'Home', subtitle: 'Página principal del sitio', delay: 0 },
+    {
+      icon: '🎨',
+      title: 'Arte en Vivo',
+      subtitle: 'Galería de obras del home',
+      delay: 0,
+      onClick: () => navigate('/artworks'),
+    },
     {
       icon: '🏆',
       title: 'Trayectoria',
