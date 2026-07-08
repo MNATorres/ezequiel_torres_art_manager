@@ -1,32 +1,33 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { signInWithPopup } from 'firebase/auth';
+import { FcGoogle } from 'react-icons/fc';
+import { auth, googleProvider } from '../firebase';
 import { authService } from '../services/api';
+import { getErrorMessage } from '../services/errors';
 import { useAuth } from '../context/AuthContext';
 
 export const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleGoogleSignIn = async () => {
     setError('');
     setLoading(true);
 
     try {
-      const response = await authService.login(email, password);
+      const result = await signInWithPopup(auth, googleProvider);
+      const idToken = await result.user.getIdToken();
+      const response = await authService.googleLogin(idToken);
       login(response.data.token, response.data.user);
       navigate('/dashboard');
     } catch (err: unknown) {
-      const message =
-        err instanceof Error ? err.message : 'Failed to login. Please try again.';
-      setError(message);
+      // Don't leave a Firebase session around for an account the backend rejected.
+      await auth.signOut().catch(() => {});
+      setError(getErrorMessage(err, 'No se pudo iniciar sesión. Intentá de nuevo.'));
     } finally {
       setLoading(false);
     }
@@ -129,110 +130,52 @@ export const Login = () => {
             </motion.div>
           )}
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            {/* Email */}
-            <motion.div variants={itemVariants}>
-              <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: '#ccc', marginBottom: '8px' }}>
-                Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={loading}
-                required
-                className="input"
-                placeholder="tu@email.com"
-                style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  borderColor: 'rgba(255, 255, 255, 0.1)',
-                  color: '#fff',
-                }}
-              />
-            </motion.div>
-
-            {/* Password */}
-            <motion.div variants={itemVariants}>
-              <label style={{ display: 'block', fontSize: '14px', fontWeight: 500, color: '#ccc', marginBottom: '8px' }}>
-                Password
-              </label>
-              <div style={{ position: 'relative' }}>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  disabled={loading}
-                  required
-                  className="input"
-                  placeholder="••••••••"
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
-                    color: '#fff',
-                    paddingRight: '44px',
-                  }}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((v) => !v)}
-                  tabIndex={-1}
-                  aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    right: 0,
-                    height: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: '0 14px',
-                    background: 'none',
-                    border: 'none',
-                    color: '#999',
-                    cursor: 'pointer',
-                  }}
-                >
-                  {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
-                </button>
-              </div>
-            </motion.div>
-
-            {/* Button */}
-            <motion.button
-              type="submit"
-              disabled={loading}
-              className="btn btn-primary"
-              style={{ marginTop: '24px' }}
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.99 }}
-              variants={itemVariants}
+          {/* Google sign-in */}
+          <motion.button
+            type="button"
+            onClick={handleGoogleSignIn}
+            disabled={loading}
+            className="btn btn-primary"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '10px',
+              background: '#fff',
+              color: '#1f1f1f',
+            }}
+            whileHover={{ scale: 1.01 }}
+            whileTap={{ scale: 0.99 }}
+            variants={itemVariants}
+          >
+            <motion.span
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
+              animate={loading ? { opacity: [1, 0.5, 1] } : {}}
+              transition={{ duration: 1, repeat: Infinity }}
             >
-              <motion.span
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-                animate={loading ? { opacity: [1, 0.5, 1] } : {}}
-                transition={{ duration: 1, repeat: Infinity }}
-              >
-                {loading ? (
-                  <>
-                    <motion.div
-                      style={{
-                        width: '16px',
-                        height: '16px',
-                        border: '2px solid #fff',
-                        borderTopColor: 'transparent',
-                        borderRadius: '50%',
-                      }}
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 0.8, repeat: Infinity }}
-                    />
-                    Logging in...
-                  </>
-                ) : (
-                  'Login'
-                )}
-              </motion.span>
-            </motion.button>
-          </form>
+              {loading ? (
+                <>
+                  <motion.div
+                    style={{
+                      width: '16px',
+                      height: '16px',
+                      border: '2px solid #1f1f1f',
+                      borderTopColor: 'transparent',
+                      borderRadius: '50%',
+                    }}
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 0.8, repeat: Infinity }}
+                  />
+                  Iniciando sesión...
+                </>
+              ) : (
+                <>
+                  <FcGoogle size={20} />
+                  Iniciar sesión con Google
+                </>
+              )}
+            </motion.span>
+          </motion.button>
         </motion.div>
       </motion.div>
     </div>

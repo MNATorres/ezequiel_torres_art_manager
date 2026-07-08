@@ -33,11 +33,7 @@ api.interceptors.request.use((config) => {
 });
 
 export const authService = {
-  login: (email: string, password: string) =>
-    api.post<AuthResponse>('/api/auth/login', { email, password }),
-
-  register: (name: string, email: string, password: string) =>
-    api.post<AuthResponse>('/api/auth/register', { name, email, password }),
+  googleLogin: (idToken: string) => api.post<AuthResponse>('/api/auth/google', { idToken }),
 };
 
 export const userService = {
