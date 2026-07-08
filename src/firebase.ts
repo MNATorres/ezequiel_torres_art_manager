@@ -15,3 +15,11 @@ const firebaseApp = initializeApp(firebaseConfig);
 
 export const auth = getAuth(firebaseApp);
 export const googleProvider = new GoogleAuthProvider();
+
+// Dev-only helper: after signing in, run `await getFirebaseIdToken()` in the
+// browser console to copy a Firebase ID token for manual API testing (e.g. the
+// Postman "Google Sign-In" request). Not exposed in production builds.
+if (import.meta.env.DEV) {
+  (globalThis as typeof globalThis & { getFirebaseIdToken?: () => Promise<string | undefined> }).getFirebaseIdToken =
+    () => auth.currentUser?.getIdToken() ?? Promise.resolve(undefined);
+}
