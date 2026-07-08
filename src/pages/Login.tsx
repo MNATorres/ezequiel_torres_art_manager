@@ -38,93 +38,72 @@ export const Login = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
+        staggerChildren: 0.12,
+        delayChildren: 0.15,
       },
     },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 22 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6 },
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const },
     },
   };
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #000 0%, #1a1a1a 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '16px',
-      }}
-    >
+    <div className="lf-root">
+      {/* Animated ambient background */}
+      <div className="lf-orb lf-orb-1" />
+      <div className="lf-orb lf-orb-2" />
+      <div className="lf-grid" />
+
       <motion.div
-        style={{ width: '100%', maxWidth: '400px' }}
+        className="lf-card-wrap"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        {/* Header */}
-        <motion.div style={{ textAlign: 'center', marginBottom: '32px' }} variants={itemVariants}>
-          <motion.h1
-            style={{
-              fontSize: '36px',
-              fontWeight: 'bold',
-              color: '#fff',
-              marginBottom: '8px',
-            }}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-          >
-            Ezequiel Torres
-          </motion.h1>
-          <motion.p
-            style={{
-              color: '#999',
-              fontSize: '12px',
-              letterSpacing: '2px',
-              textTransform: 'uppercase',
-            }}
-            variants={itemVariants}
-          >
-            Art Manager
-          </motion.p>
-        </motion.div>
+        <div className="lf-card-glow" />
 
-        {/* Card */}
-        <motion.div
-          style={{
-            background: 'rgba(255, 255, 255, 0.05)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
-            borderRadius: '12px',
-            padding: '32px',
-          }}
-          variants={itemVariants}
-          whileHover={{ borderColor: 'rgba(255, 255, 255, 0.2)' }}
-        >
+        <div className="lf-card">
+          {/* Header */}
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+            <motion.div
+              className="lf-mono"
+              variants={itemVariants}
+              whileHover={{ scale: 1.06, rotate: -3 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 18 }}
+            >
+              ET
+            </motion.div>
+
+            <motion.h1 className="lf-title" style={{ marginTop: '20px' }} variants={itemVariants}>
+              Ezequiel Torres
+            </motion.h1>
+            <motion.p className="lf-sub" variants={itemVariants}>
+              Art Manager
+            </motion.p>
+          </div>
+
+          <motion.div className="lf-divider" variants={itemVariants} />
+
           {/* Error */}
           {error && (
             <motion.div
               style={{
-                marginBottom: '24px',
-                padding: '16px',
-                background: 'rgba(239, 68, 68, 0.1)',
-                border: '1px solid rgba(239, 68, 68, 0.3)',
-                borderRadius: '8px',
+                marginBottom: '20px',
+                padding: '14px 16px',
+                background: 'rgba(239, 68, 68, 0.08)',
+                border: '1px solid rgba(239, 68, 68, 0.35)',
+                borderRadius: '10px',
                 color: '#fca5a5',
-                fontSize: '14px',
+                fontSize: '13px',
               }}
-              initial={{ opacity: 0, y: -10 }}
+              initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
             >
               {error}
             </motion.div>
@@ -135,48 +114,34 @@ export const Login = () => {
             type="button"
             onClick={handleGoogleSignIn}
             disabled={loading}
-            className="btn btn-primary"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '10px',
-              background: '#fff',
-              color: '#1f1f1f',
-            }}
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
+            className="lf-gbtn"
             variants={itemVariants}
+            whileHover={loading ? {} : { scale: 1.015 }}
+            whileTap={loading ? {} : { scale: 0.985 }}
           >
-            <motion.span
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}
-              animate={loading ? { opacity: [1, 0.5, 1] } : {}}
-              transition={{ duration: 1, repeat: Infinity }}
-            >
-              {loading ? (
-                <>
-                  <motion.div
-                    style={{
-                      width: '16px',
-                      height: '16px',
-                      border: '2px solid #1f1f1f',
-                      borderTopColor: 'transparent',
-                      borderRadius: '50%',
-                    }}
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 0.8, repeat: Infinity }}
-                  />
-                  Iniciando sesión...
-                </>
-              ) : (
-                <>
-                  <FcGoogle size={20} />
-                  Iniciar sesión con Google
-                </>
-              )}
-            </motion.span>
+            {loading ? (
+              <>
+                <motion.span
+                  className="lf-spinner"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
+                />
+                Verificando acceso...
+              </>
+            ) : (
+              <>
+                <FcGoogle size={20} />
+                Iniciar sesión con Google
+              </>
+            )}
           </motion.button>
-        </motion.div>
+
+          {/* Footer */}
+          <motion.div className="lf-foot" variants={itemVariants}>
+            <span className="lf-dot" />
+            Acceso restringido · solo cuentas autorizadas
+          </motion.div>
+        </div>
       </motion.div>
     </div>
   );

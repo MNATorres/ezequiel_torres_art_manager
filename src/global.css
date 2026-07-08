@@ -98,6 +98,212 @@ button:disabled {
   background: linear-gradient(135deg, #f5f5f5 0%, #fff 100%);
 }
 
+/* ================= Futuristic login screen ================= */
+@keyframes lf-orb-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(50px, -34px) scale(1.18); }
+}
+@keyframes lf-orb-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-56px, 44px) scale(1.12); }
+}
+@keyframes lf-grid-pan {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 0 44px, 44px 0; }
+}
+@keyframes lf-spin { to { transform: rotate(360deg); } }
+@keyframes lf-shimmer { to { background-position: 200% center; } }
+@keyframes lf-pulse {
+  0%, 100% { opacity: 0.35; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+.lf-root {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow: hidden;
+  background: radial-gradient(ellipse 100% 80% at 50% -10%, #0d1526 0%, #05060a 60%);
+}
+
+.lf-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.lf-orb-1 {
+  width: 440px;
+  height: 440px;
+  top: -90px;
+  left: -70px;
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.55), transparent 70%);
+  animation: lf-orb-a 15s ease-in-out infinite;
+}
+.lf-orb-2 {
+  width: 480px;
+  height: 480px;
+  bottom: -110px;
+  right: -90px;
+  background: radial-gradient(circle, rgba(217, 70, 239, 0.45), transparent 70%);
+  animation: lf-orb-b 17s ease-in-out infinite;
+}
+
+.lf-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(120, 190, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 190, 255, 0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 42%, #000 25%, transparent 72%);
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 42%, #000 25%, transparent 72%);
+  animation: lf-grid-pan 7s linear infinite;
+}
+
+.lf-card-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+.lf-card-glow {
+  position: absolute;
+  inset: -2px;
+  border-radius: 22px;
+  background: conic-gradient(from 0deg, #22d3ee, #a78bfa, #d946ef, #22d3ee);
+  filter: blur(16px);
+  opacity: 0.35;
+  animation: lf-spin 6s linear infinite;
+  pointer-events: none;
+}
+.lf-card {
+  position: relative;
+  border-radius: 20px;
+  padding: 40px 32px;
+  background: rgba(11, 14, 22, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px);
+  overflow: hidden;
+}
+.lf-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.7), transparent);
+}
+
+.lf-mono {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 1px;
+  color: #e8f9ff;
+  background: linear-gradient(135deg, rgba(34, 211, 238, 0.18), rgba(167, 139, 250, 0.14));
+  border: 1px solid rgba(34, 211, 238, 0.35);
+  box-shadow: 0 0 24px rgba(34, 211, 238, 0.25), inset 0 0 18px rgba(34, 211, 238, 0.12);
+}
+
+.lf-title {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(90deg, #ffffff, #a5f3fc, #c4b5fd, #ffffff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: lf-shimmer 6s linear infinite;
+}
+.lf-sub {
+  margin-top: 8px;
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #6b7385;
+}
+
+.lf-divider {
+  height: 1px;
+  margin: 26px 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.14), transparent);
+}
+
+.lf-gbtn {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  color: #e8eaf0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(6px);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+.lf-gbtn:hover:not(:disabled) {
+  border-color: rgba(34, 211, 238, 0.6);
+  background: rgba(34, 211, 238, 0.07);
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.25), 0 0 34px rgba(34, 211, 238, 0.22);
+}
+.lf-gbtn:disabled {
+  opacity: 0.6;
+}
+
+.lf-foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 22px;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  color: #565e70;
+}
+.lf-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 0 0 10px #22d3ee;
+  animation: lf-pulse 2s ease-in-out infinite;
+}
+
+.lf-spinner {
+  width: 17px;
+  height: 17px;
+  border: 2px solid rgba(34, 211, 238, 0.85);
+  border-top-color: transparent;
+  border-radius: 50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lf-orb,
+  .lf-grid,
+  .lf-card-glow,
+  .lf-title,
+  .lf-dot {
+    animation: none !important;
+  }
+}
+
 /* ---- Users list (no horizontal scroll, uniform cells) ---- */
 .users-list {
   display: flex;
