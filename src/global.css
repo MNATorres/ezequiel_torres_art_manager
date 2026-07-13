@@ -304,6 +304,120 @@ button:disabled {
   }
 }
 
+/* ---- Top navbar ---- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.nav-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.nav-logo {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  flex-shrink: 0;
+}
+.nav-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  line-height: 1.2;
+}
+.nav-subtitle {
+  font-size: 11px;
+  color: #999;
+  margin: 2px 0 0 0;
+}
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  color: #999;
+  background: none;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.nav-link:hover,
+.nav-link.active {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+}
+.nav-userinfo {
+  text-align: right;
+  color: #999;
+  line-height: 1.2;
+  min-width: 0;
+}
+.nav-user-name {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nav-user-role {
+  margin: 2px 0 0 0;
+  font-size: 11px;
+}
+.nav-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 560px) {
+  .nav-inner {
+    padding: 12px 16px;
+    gap: 10px;
+  }
+  .nav-title {
+    font-size: 17px;
+  }
+  .nav-actions {
+    gap: 8px;
+  }
+  .nav-link {
+    padding: 9px;
+  }
+  .nav-link-label,
+  .nav-logout-label,
+  .nav-userinfo {
+    display: none;
+  }
+  .nav-logout {
+    padding: 9px 11px;
+  }
+}
+
 /* ---- Users list (no horizontal scroll, uniform cells) ---- */
 .users-list {
   display: flex;

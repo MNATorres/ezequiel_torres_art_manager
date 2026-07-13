@@ -17,99 +17,61 @@ export const Navbar = () => {
 
   return (
     <motion.nav
-      style={{
-        background: 'rgba(10, 10, 10, 0.8)',
-        backdropFilter: 'blur(10px)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 50,
-      }}
+      className="nav"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
     >
-      <div
-        style={{
-          maxWidth: '1280px',
-          margin: '0 auto',
-          padding: '16px 24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '16px',
-          flexWrap: 'wrap',
-        }}
-      >
+      <div className="nav-inner">
         {/* Logo */}
         <motion.button
+          className="nav-logo"
           onClick={() => navigate('/dashboard')}
-          style={{ background: 'none', border: 'none', padding: 0, textAlign: 'left' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2 }}
         >
-          <h1 style={{ fontSize: '20px', fontWeight: 'bold', color: '#fff', margin: 0 }}>
-            Ezequiel Torres
-          </h1>
-          <p style={{ fontSize: '11px', color: '#999', margin: '2px 0 0 0' }}>Art Manager</p>
+          <h1 className="nav-title">Ezequiel Torres</h1>
+          <p className="nav-subtitle">Art Manager</p>
         </motion.button>
 
         {/* Navigation */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+        <div className="nav-actions">
           {/* Admin Menu */}
           {user?.role === 'ADMIN' && (
             <motion.button
+              className={`nav-link${isActive('/users') ? ' active' : ''}`}
               onClick={() => navigate('/users')}
-              style={{
-                background: isActive('/users') ? 'rgba(255, 255, 255, 0.05)' : 'none',
-                border: 'none',
-                color: isActive('/users') ? '#fff' : '#999',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                fontSize: '14px',
-                fontWeight: 500,
-                padding: '8px 16px',
-                borderRadius: '8px',
-              }}
-              whileHover={{ color: '#fff', background: 'rgba(255, 255, 255, 0.05)' }}
               whileTap={{ scale: 0.96 }}
+              aria-label="Users"
             >
               <FiUsers size={18} />
-              Users
+              <span className="nav-link-label">Users</span>
             </motion.button>
           )}
 
-          {/* User Info & Logout */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <motion.div
-              style={{ fontSize: '13px', color: '#999', textAlign: 'right' }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              <p style={{ margin: 0, fontWeight: 500, color: '#fff' }}>{user?.name}</p>
-              <p style={{ margin: '2px 0 0 0', fontSize: '11px' }}>{user?.role}</p>
-            </motion.div>
+          {/* User Info */}
+          <motion.div
+            className="nav-userinfo"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+          >
+            <p className="nav-user-name">{user?.name}</p>
+            <p className="nav-user-role">{user?.role}</p>
+          </motion.div>
 
-            <motion.button
-              onClick={handleLogout}
-              className="btn btn-primary"
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '8px 16px',
-                fontSize: '13px',
-              }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <FiLogOut size={16} />
-              Logout
-            </motion.button>
-          </div>
+          {/* Logout */}
+          <motion.button
+            onClick={handleLogout}
+            className="btn btn-primary nav-logout"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Logout"
+          >
+            <FiLogOut size={16} />
+            <span className="nav-logout-label">Logout</span>
+          </motion.button>
         </div>
       </div>
     </motion.nav>
